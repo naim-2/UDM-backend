@@ -16,6 +16,7 @@ GET_SELLER = "SELECT * FROM seller WHERE username=(%s) AND productname=(%s);"
 GET_PRODUCT_CATEGORY = "SELECT * FROM seller WHERE category=(%s);"
 GET_PRODUCTNAME = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s);"
 GET_PRODUCT_FILTER = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s) AND price>=(%s) AND price<=(%s);"
+GET_PRODUCT_SELLER = "SELECT * FROM seller WHERE username=(%s);"
 
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"

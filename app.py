@@ -69,9 +69,8 @@ def change_user():
             return jsonify({'message': 'Status changed successfully!'})
 
 # delete user
-@app.route('/deleteUser', methods=['DELETE'])
-def delete_user():
-    username = request.get_json()['username']
+@app.route('/deleteUser/<usernmae>', methods=['DELETE'])
+def delete_user(username):
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
@@ -81,8 +80,8 @@ def delete_user():
 # user log in
 @app.route('/login', methods=['GET'])
 def login():
-    username = request.get_json()['username']
-    password = request.get_json()['password']
+    username = request.args.get('username')
+    password = request.args.get('password')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
@@ -139,7 +138,7 @@ def update_product():
 # view product
 @app.route('/viewProduct', methods=['GET'])
 def view_product():
-    category = request.get_json()['category']
+    category = request.args.get('category')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
@@ -151,8 +150,8 @@ def view_product():
 # search for a product
 @app.route('/searchProduct', methods=['GET'])
 def search_product():
-    productname = request.get_json()['productname']
-    category = request.get_json()['category']
+    productname = request.args.get('productname')
+    category = request.args.get('category')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
@@ -164,16 +163,28 @@ def search_product():
 # filter product
 @app.route('/filterProduct', methods=['GET'])
 def filter_product():
-    productname = request.get_json()['productname']
-    category = request.get_json()['category']
-    minprice = request.get_json()['minprice']
-    maxprice = request.get_json()['maxprice']
+    productname = request.args.get('productname')
+    category = request.args.get('category')
+    minprice = request.args.get('minprice')
+    maxprice = request.args.get('maxprice')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(GET_PRODUCT_FILTER, (productname, category, minprice, maxprice))
             if(cursor.fetchall()==[]):
                 return jsonify({'message': 'There is no product with such a price range!'})
+            return jsonify(cursor.fetchall())
+
+# view products for seller
+@app.route('/viewSellerProduct', methods=['GET'])
+def view_seller_product():
+    username = request.args.get('username')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_PRODUCT_SELLER, (username, ))
+            if(cursor.fetchall()==[]):
+                return jsonify({'message': 'You have no products yet!'})
             return jsonify(cursor.fetchall())
 
 if __name__ == '__main__':
