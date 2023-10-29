@@ -96,5 +96,26 @@ def login():
                 else:
                     return jsonify({'message': 'Wrong password entered!'})
 
+# add product
+@app.route('/addProduct', methods=['POST'])
+def add_product():
+    username = request.get_json()['username']
+    productname = request.get_json()['productname']
+    productdetails = request.get_json()['productdetails']
+    price = request.get_json()['price']
+    quantity = request.get_json()['quantity']
+    reviews = []
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_SELLER, (username, productname))
+            if(cursor.fetchall()==[]):
+                cursor.execute(INSERT_SELLER, (
+                    username, productname, productdetails, price, quantity, reviews
+                ))
+                return jsonify({'message': 'Product details added successfully!'})
+            else:
+                return jsonify({'message': 'Product name already exists!'})
+                
 if __name__ == '__main__':
     app.run()

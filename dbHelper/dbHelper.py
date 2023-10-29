@@ -12,6 +12,7 @@ INSERT_SELLER = "INSERT INTO seller (username, productname, productdetails, pric
 
 # view from tables
 GET_USER = "SELECT * FROM users where username=(%s);"
+GET_SELLER = "SELECT * FROM seller where username=(%s) AND productname=(%s);"
 
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"
