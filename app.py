@@ -30,7 +30,7 @@ def add_user():
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
-            cursor.execute(GET_USERS, (username, ))
+            cursor.execute(GET_USER, (username, ))
             if(cursor.fetchall()==[]):
                 cursor.execute(INSERT_USER, (
                     username, firstname, lastname, phonenumber, email, password, status
@@ -77,6 +77,24 @@ def delete_user():
             cursor.execute(CREATE_USER)
             cursor.execute(DELETE_USER, (username, ))
             return jsonify({'message': 'User deleted successfully!'})
+        
+# user log in
+@app.route('/login', methods=['GET'])
+def login():
+    username = request.get_json()['username']
+    password = request.get_json()['password']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_USER)
+            cursor.execute(GET_USER, (username, ))
+            if(cursor.fetchall()==[]):
+                return jsonify({'message': 'No such user exists!'})
+            else:
+                databasePassword = cursor.fetchall()[5]
+                if(password==databasePassword):
+                    return jsonify({'message': 'Logged in successfully!'})
+                else:
+                    return jsonify({'message': 'Wrong password entered!'})
 
 if __name__ == '__main__':
     app.run()
