@@ -102,6 +102,7 @@ def add_product():
     username = request.get_json()['username']
     productname = request.get_json()['productname']
     category = request.get_json()['category']
+    photo = request.get_json()['photo']
     productdetails = request.get_json()['productdetails']
     price = request.get_json()['price']
     quantity = request.get_json()['quantity']
@@ -112,7 +113,7 @@ def add_product():
             cursor.execute(GET_SELLER, (username, productname))
             if(cursor.fetchall()==[]):
                 cursor.execute(INSERT_SELLER, (
-                    username, productname, category, productdetails, price, quantity, reviews
+                    username, productname, category, photo, productdetails, price, quantity, reviews
                 ))
                 return jsonify({'message': 'Product details added successfully!'})
             else:
@@ -123,6 +124,7 @@ def add_product():
 def update_product():
     username = request.get_json()['username']
     productname = request.get_json()['productname']
+    photo = request.get_json()['photo']
     productdetails = request.get_json()['productdetails']
     price = request.get_json()['price']
     quantity = request.get_json()['quantity']
@@ -130,7 +132,7 @@ def update_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(UPDATE_PRODUCT, (
-                productdetails, price, quantity, username, productname
+                photo, productdetails, price, quantity, username, productname
             ))
             return jsonify({'message': 'Product details updated successfully!'})
 
@@ -158,6 +160,21 @@ def search_product():
             if(cursor.fetchall()==[]):
                 return jsonify({'message': 'There is no product with such a name!'})
             return jsonify(cursor.fetchall())
-        
+
+# filter product
+@app.route('/filterProduct', methods=['GET'])
+def filter_product():
+    productname = request.get_json()['productname']
+    category = request.get_json()['category']
+    minprice = request.get_json()['minprice']
+    maxprice = request.get_json()['maxprice']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_PRODUCT_FILTER, (productname, category, minprice, maxprice))
+            if(cursor.fetchall()==[]):
+                return jsonify({'message': 'There is no product with such a price range!'})
+            return jsonify(cursor.fetchall())
+
 if __name__ == '__main__':
     app.run()
