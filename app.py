@@ -101,6 +101,7 @@ def login():
 def add_product():
     username = request.get_json()['username']
     productname = request.get_json()['productname']
+    category = request.get_json()['category']
     productdetails = request.get_json()['productdetails']
     price = request.get_json()['price']
     quantity = request.get_json()['quantity']
@@ -111,11 +112,39 @@ def add_product():
             cursor.execute(GET_SELLER, (username, productname))
             if(cursor.fetchall()==[]):
                 cursor.execute(INSERT_SELLER, (
-                    username, productname, productdetails, price, quantity, reviews
+                    username, productname, category, productdetails, price, quantity, reviews
                 ))
                 return jsonify({'message': 'Product details added successfully!'})
             else:
                 return jsonify({'message': 'Product name already exists!'})
-                
+
+# update product
+@app.route('/updateProduct', methods=['PUT'])
+def update_product():
+    username = request.get_json()['username']
+    productname = request.get_json()['productname']
+    productdetails = request.get_json()['productdetails']
+    price = request.get_json()['price']
+    quantity = request.get_json()['quantity']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(UPDATE_PRODUCT, (
+                productdetails, price, quantity, username, productname
+            ))
+            return jsonify({'message': 'Product details updated successfully!'})
+
+# view product
+@app.route('/viewProduct', methods=['GET'])
+def view_product():
+    category = request.get_json()['category']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_PRODUCT_CATEGORY, (category, ))
+            if(cursor.fetchall()==[]):
+                return jsonify({'message': 'There are no products in this category!'})
+            return jsonify(cursor.fetchall())
+        
 if __name__ == '__main__':
     app.run()
