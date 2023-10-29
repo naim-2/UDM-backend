@@ -17,11 +17,13 @@ GET_PRODUCT_CATEGORY = "SELECT * FROM seller WHERE category=(%s);"
 GET_PRODUCTNAME = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s);"
 GET_PRODUCT_FILTER = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s) AND price>=(%s) AND price<=(%s);"
 GET_PRODUCT_SELLER = "SELECT * FROM seller WHERE username=(%s);"
+GET_REVIEWS = "SELECT reviews FROM seller WHERE username=(%s) AND productname=(%s)"
 
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"
 UPDATE_USER_STATUS = "UPDATE users SET status=(%s) WHERE username=(%s);"
 UPDATE_PRODUCT = "UPDATE seller SET photo=(%s), productdetails=(%s), price=(%s), quantity=(%s) WHERE username=(%s) AND productname=(%s);"
+INSERT_REVIEW = "UPDATE seller SET reviews=(%s) WHERE username=(%s) and productname=(%s);"
 
 # delete from tables
 DELETE_USER = "DELETE FROM users WHERE username=(%s);"

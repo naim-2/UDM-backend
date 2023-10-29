@@ -196,5 +196,28 @@ def delete_product(username, productname):
             cursor.execute(DELETE_PRODUCT, (username, productname))
             return jsonify({'message': 'Product has been deleted successfully!'})
 
+# post review
+@app.route('/postReview', methods=['PUT'])
+def post_review():
+    username = request.get_json()['username']
+    productname = request.get_json()['productname']
+    reviews = request.get_json()['reviews']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_REVIEWS, (username, productname))
+            if(cursor.fetchall()==[]):
+                cursor.execute(INSERT_REVIEW, (
+                    reviews, username, productname
+                ))
+                return jsonify({'message': 'Review added successfully!'})
+            else:
+                newreviews = cursor.fetchall() + "!@#$%^&*()" + reviews
+                cursor.execute(INSERT_REVIEW, (
+                    newreviews, username, productname
+                ))
+                return jsonify({'message': 'Review added successfully!'})
+        
+
 if __name__ == '__main__':
     app.run()
