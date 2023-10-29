@@ -40,7 +40,7 @@ def add_user():
 
 # update user details
 @app.route('/updateUser', methods=['PUT'])
-def add_user():
+def update_user():
     username = request.get_json()['username']
     firstname = request.get_json()['firstname'] 
     lastname = request.get_json()['lastname']
@@ -57,7 +57,7 @@ def add_user():
 
 # change user status
 @app.route('/changeUser', methods=['PUT'])
-def add_user():
+def change_user():
     username = request.get_json()['username']
     status = request.get_json()['status'] 
     with connection:
@@ -67,6 +67,16 @@ def add_user():
                 status, username
             ))
             return jsonify({'message': 'Status changed successfully!'})
+
+# delete user
+@app.route('/deleteUser', methods=['DELETE'])
+def delete_user():
+    username = request.get_json()['username']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_USER)
+            cursor.execute(DELETE_USER, (username, ))
+            return jsonify({'message': 'User deleted successfully!'})
 
 if __name__ == '__main__':
     app.run()

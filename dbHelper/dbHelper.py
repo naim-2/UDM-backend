@@ -16,3 +16,6 @@ GET_USERS = "SELECT * FROM users where username = (%s);"
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"
 UPDATE_USER_STATUS = "UPDATE users SET status=(%s) WHERE username=(%s)"
+
+# delete from tables
+DELETE_USER = "DELETE FROM users WHERE username=(%s);"
