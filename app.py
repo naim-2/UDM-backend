@@ -50,12 +50,23 @@ def add_user():
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
-            if(cursor.fetchall()==[]):
-                cursor.execute(UPDATE_USER, (
-                    firstname, lastname, phonenumber, email, password, username
-                ))
-                return jsonify({'message': 'Details updated successfully!'})
-    return jsonify({'message': 'Details have not been updated!!'})
+            cursor.execute(UPDATE_USER, (
+                firstname, lastname, phonenumber, email, password, username
+            ))
+            return jsonify({'message': 'Details updated successfully!'})
+
+# change user status
+@app.route('/changeUser', methods=['PUT'])
+def add_user():
+    username = request.get_json()['username']
+    status = request.get_json()['status'] 
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_USER)
+            cursor.execute(UPDATE_USER_STATUS, (
+                status, username
+            ))
+            return jsonify({'message': 'Status changed successfully!'})
 
 if __name__ == '__main__':
     app.run()
