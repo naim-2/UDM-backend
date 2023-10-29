@@ -146,5 +146,18 @@ def view_product():
                 return jsonify({'message': 'There are no products in this category!'})
             return jsonify(cursor.fetchall())
         
+# search for a product
+@app.route('/searchProduct', methods=['GET'])
+def search_product():
+    productname = request.get_json()['productname']
+    category = request.get_json()['category']
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_PRODUCTNAME, (productname, category))
+            if(cursor.fetchall()==[]):
+                return jsonify({'message': 'There is no product with such a name!'})
+            return jsonify(cursor.fetchall())
+        
 if __name__ == '__main__':
     app.run()
