@@ -212,12 +212,50 @@ def post_review():
                 ))
                 return jsonify({'message': 'Review added successfully!'})
             else:
-                newreviews = cursor.fetchall() + "!@#$%^&*()" + reviews
+                newreviews = cursor.fetchall() + "!@#$%^&*()" + username + "!@#$%^&*()" + reviews
                 cursor.execute(INSERT_REVIEW, (
                     newreviews, username, productname
                 ))
                 return jsonify({'message': 'Review added successfully!'})
-        
+            
+# # update review
+# @app.route('/updateReview', methods=['PUT'])
+# def update_review():
+#     username = request.get_json()['username']
+#     productname = request.get_json()['productname']
+#     reviews = request.get_json()['reviews']
+#     with connection:
+#         with connection.cursor() as cursor:
+#             cursor.execute(CREATE_SELLER)
+#             cursor.execute(GET_REVIEWS, (username, productname))
+#             databasereviews = cursor.fetchall()
+#             newreviews = ""
+#             for i in databasereviews.split("!@#$%^&*()"):
+#                 if i==reviews:
+                    
+#                 newreviews += i + "!@#$%^&*()"
 
+#             newreviews = cursor.fetchall() + "!@#$%^&*()" + reviews
+#             cursor.execute(INSERT_REVIEW, (
+#                 newreviews, username, productname
+#             ))
+#             return jsonify({'message': 'Review added successfully!'})
+
+# view sellers' details
+@app.route('/viewSeller', methods=['GET'])
+def view_seller_product():
+    username = request.args.get('username')
+    productname = request.args.get('productname')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_SELLER_DETAILS, (username, productname))
+            firstname = cursor.fetchall()[1]
+            lastname = cursor.fetchall()[2]
+            phonenumber = cursor.fetchall()[3]
+            email = cursor.fetchall()[4]
+            sellerDetails = [firstname, lastname, phonenumber, email]
+            return jsonify(sellerDetails)
+        
 if __name__ == '__main__':
     app.run()
