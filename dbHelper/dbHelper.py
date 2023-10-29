@@ -25,3 +25,4 @@ UPDATE_PRODUCT = "UPDATE seller SET photo=(%s), productdetails=(%s), price=(%s),
 
 # delete from tables
 DELETE_USER = "DELETE FROM users WHERE username=(%s);"
+DELETE_PRODUCT = "DELETE FROM seller WHERE username=(%s) AND productname=(%s);"

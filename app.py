@@ -186,6 +186,15 @@ def view_seller_product():
             if(cursor.fetchall()==[]):
                 return jsonify({'message': 'You have no products yet!'})
             return jsonify(cursor.fetchall())
+        
+# delete product
+@app.route('/deleteProduct/<username>/<productname>', methods=['DELETE'])
+def delete_product(username, productname):
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(DELETE_PRODUCT, (username, productname))
+            return jsonify({'message': 'Product has been deleted successfully!'})
 
 if __name__ == '__main__':
     app.run()
