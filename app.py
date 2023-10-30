@@ -243,7 +243,7 @@ def post_review():
 
 # view sellers' details
 @app.route('/viewSeller', methods=['GET'])
-def view_seller_product():
+def view_seller():
     username = request.args.get('username')
     productname = request.args.get('productname')
     with connection:
