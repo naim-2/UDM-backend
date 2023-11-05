@@ -1,6 +1,6 @@
 # create tables
 CREATE_USER = (
-    "CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, firstname TEXT, lastname TEXT, phonenumber TEXT, email TEXT, password TEXT, status TEXT);"
+    "CREATE TABLE IF NOT EXISTS users (username TEXT, firstname TEXT, lastname TEXT, phonenumber TEXT, email TEXT, password TEXT, status TEXT, PRIMARY KEY (username, email));"
 )
 CREATE_SELLER = (
     "CREATE TABLE IF NOT EXISTS seller (username TEXT, productname TEXT, category TEXT, photo TEXT productdetails TEXT, price INTEGER, quantity INTEGER, reviews TEXT, PRIMARY KEY (username, productname));"
@@ -12,6 +12,7 @@ INSERT_SELLER = "INSERT INTO seller (username, productname, category, photo, pro
 
 # view from tables
 GET_USER = "SELECT * FROM users WHERE username=(%s);"
+GET_EMAIL = "SELECT * FROM users WHERE email=(%s);"
 GET_SELLER = "SELECT * FROM seller WHERE username=(%s) AND productname=(%s);"
 GET_PRODUCT_CATEGORY = "SELECT * FROM seller WHERE category=(%s);"
 GET_PRODUCTNAME = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s);"

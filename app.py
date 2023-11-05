@@ -32,11 +32,14 @@ def add_user():
             cursor.execute(CREATE_USER)
             cursor.execute(GET_USER, (username, ))
             if(cursor.fetchall()==[]):
-                cursor.execute(INSERT_USER, (
-                    username, firstname, lastname, phonenumber, email, password, status
-                ))
-                return jsonify({'message': 'Signed Up successfully!'})
-    return jsonify({'message': 'Username already exists!'})
+                cursor.execute(GET_EMAIL, (email, ))
+                if(cursor.fetchall()==[]):
+                    cursor.execute(INSERT_USER, (
+                        username, firstname, lastname, phonenumber, email, password, status
+                    ))
+                    return jsonify({'message': 'Signed Up successfully!'})
+                return jsonify({'message': 'Email already exists!'})    
+            return jsonify({'message': 'Username already exists!'})
 
 # update user details
 @app.route('/updateUser', methods=['PUT'])
