@@ -88,7 +88,7 @@ def login():
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
-            cursor.execute(GET_USER, (username, ))
+            cursor.execute(GET_USER_LOGIN, (username, password))
             if(cursor.fetchall()==[]):
                 return jsonify({'message': 'No such user exists!'})
             else:
