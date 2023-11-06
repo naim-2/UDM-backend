@@ -90,13 +90,9 @@ def login():
             cursor.execute(CREATE_USER)
             cursor.execute(GET_USER_LOGIN, (username, password))
             if(cursor.fetchall()==[]):
-                return jsonify({'message': 'No such user exists!'})
-            else:
-                databasePassword = cursor.fetchall()[5]
-                if(password==databasePassword):
-                    return jsonify({'message': 'Logged in successfully!'})
-                else:
-                    return jsonify({'message': 'Wrong password entered!'})
+                return jsonify({'message': 'Wrong email or password!'})
+            return jsonify({'message': 'Logged in successfully!'})
+                
 
 # add product
 @app.route('/addProduct', methods=['POST'])
