@@ -3,7 +3,7 @@ CREATE_USER = (
     "CREATE TABLE IF NOT EXISTS users (username TEXT, firstname TEXT, lastname TEXT, phonenumber TEXT, email TEXT, password TEXT, status TEXT, PRIMARY KEY (username, email));"
 )
 CREATE_SELLER = (
-    "CREATE TABLE IF NOT EXISTS seller (username TEXT, productname TEXT, category TEXT, photo TEXT productdetails TEXT, price INTEGER, quantity INTEGER, reviews TEXT, PRIMARY KEY (username, productname));"
+    "CREATE TABLE IF NOT EXISTS seller (username TEXT, productname TEXT, category TEXT, photo TEXT, productdetails TEXT, price INTEGER, quantity INTEGER, reviews TEXT, PRIMARY KEY (username, productname));"
 )
 
 # insert into tables
