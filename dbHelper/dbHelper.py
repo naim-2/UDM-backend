@@ -20,7 +20,7 @@ GET_PRODUCTNAME = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s)
 GET_PRODUCT_FILTER = "SELECT * FROM seller WHERE productname=(%s) AND category=(%s) AND price>=(%s) AND price<=(%s);"
 GET_PRODUCT_SELLER = "SELECT * FROM seller WHERE username=(%s);"
 GET_REVIEWS = "SELECT reviews FROM seller WHERE username=(%s) AND productname=(%s)"
-GET_SELLER_DETAILS = "SELECT * FROM user WHERE username=(%s);"
+GET_SELLER_DETAILS = "SELECT * FROM users WHERE username=(%s);"
 
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"
