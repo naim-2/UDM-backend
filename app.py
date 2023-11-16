@@ -142,9 +142,10 @@ def view_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(GET_PRODUCT_CATEGORY, (category, ))
-            if(cursor.fetchall()==[]):
+            products = cursor.fetchall()
+            if(products==[]):
                 return jsonify({'message': 'There are no products in this category!'})
-            return jsonify(cursor.fetchall())
+            return jsonify(products)
         
 # search for a product
 @app.route('/searchProduct', methods=['GET'])
@@ -155,9 +156,10 @@ def search_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(GET_PRODUCTNAME, (productname, category))
-            if(cursor.fetchall()==[]):
+            product = cursor.fetchall()
+            if(product==[]):
                 return jsonify({'message': 'There is no product with such a name!'})
-            return jsonify(cursor.fetchall())
+            return jsonify(product)
 
 # filter product
 @app.route('/filterProduct', methods=['GET'])
@@ -170,9 +172,10 @@ def filter_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(GET_PRODUCT_FILTER, (productname, category, minprice, maxprice))
-            if(cursor.fetchall()==[]):
+            allproducts = cursor.fetchall()
+            if(allproducts==[]):
                 return jsonify({'message': 'There is no product with such a price range!'})
-            return jsonify(cursor.fetchall())
+            return jsonify(allproducts)
 
 # view products for seller
 @app.route('/viewSellerProduct', methods=['GET'])
@@ -182,9 +185,10 @@ def view_seller_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(GET_PRODUCT_SELLER, (username, ))
-            if(cursor.fetchall()==[]):
+            allproducts = cursor.fetchall()
+            if(allproducts==[]):
                 return jsonify({'message': 'You have no products yet!'})
-            return jsonify(cursor.fetchall())
+            return jsonify(allproducts)
         
 # delete product
 @app.route('/deleteProduct/<username>/<productname>', methods=['DELETE'])
@@ -244,15 +248,15 @@ def post_review():
 @app.route('/viewSeller', methods=['GET'])
 def view_seller():
     username = request.args.get('username')
-    productname = request.args.get('productname')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
-            cursor.execute(GET_SELLER_DETAILS, (username, productname))
-            firstname = cursor.fetchall()[1]
-            lastname = cursor.fetchall()[2]
-            phonenumber = cursor.fetchall()[3]
-            email = cursor.fetchall()[4]
+            cursor.execute(GET_SELLER_DETAILS, (username, ))
+            details = cursor.fetchall()
+            firstname = details[0][1]
+            lastname = details[0][2]
+            phonenumber = details[0][3]
+            email = details[0][4]
             sellerDetails = [firstname, lastname, phonenumber, email]
             return jsonify(sellerDetails)
         
