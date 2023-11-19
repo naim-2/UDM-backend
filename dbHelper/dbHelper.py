@@ -1,4 +1,4 @@
-# create tables
+5# create tables
 CREATE_USER = (
     "CREATE TABLE IF NOT EXISTS users (username TEXT, firstname TEXT, lastname TEXT, phonenumber TEXT, email TEXT, password TEXT, status TEXT, PRIMARY KEY (username, email));"
 )
@@ -25,7 +25,7 @@ GET_SELLER_DETAILS = "SELECT * FROM users WHERE username=(%s);"
 # update tables
 UPDATE_USER = "UPDATE users SET firstname=(%s), lastname=(%s), phonenumber=(%s), email=(%s), password=(%s) WHERE username=(%s);"
 UPDATE_USER_STATUS = "UPDATE users SET status=(%s) WHERE username=(%s);"
-UPDATE_PRODUCT = "UPDATE seller SET photo=(%s), productdetails=(%s), price=(%s), quantity=(%s) WHERE username=(%s) AND productname=(%s);"
+UPDATE_PRODUCT = "UPDATE seller SET category=(%s), photo=(%s), productdetails=(%s), price=(%s), quantity=(%s) WHERE username=(%s) AND productname=(%s);"
 INSERT_REVIEW = "UPDATE seller SET reviews=(%s) WHERE username=(%s) and productname=(%s);"
 
 # delete from tables
