@@ -122,6 +122,7 @@ def add_product():
 def update_product():
     username = request.get_json()['username']
     productname = request.get_json()['productname']
+    category = request.get_json()['category']
     photo = request.get_json()['photo']
     productdetails = request.get_json()['productdetails']
     price = request.get_json()['price']
@@ -130,7 +131,7 @@ def update_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(UPDATE_PRODUCT, (
-                photo, productdetails, price, quantity, username, productname
+                photo, productdetails, price, quantity, username, productname, category
             ))
             return jsonify({'message': 'Product details updated successfully!'})
 
