@@ -131,7 +131,7 @@ def update_product():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
             cursor.execute(UPDATE_PRODUCT, (
-                photo, productdetails, price, quantity, username, productname, category
+                category, photo, productdetails, price, quantity, username, productname
             ))
             return jsonify({'message': 'Product details updated successfully!'})
 
