@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dbHelper.dbHelper import *
+from sha256.sha256 import *
 
 load_dotenv()
 
@@ -35,7 +36,7 @@ def add_user():
                 cursor.execute(GET_EMAIL, (email, ))
                 if(cursor.fetchall()==[]):
                     cursor.execute(INSERT_USER, (
-                        username, firstname, lastname, phonenumber, email, password, status
+                        username, firstname, lastname, phonenumber, email, calculate_sha256(password), status
                     ))
                     return jsonify({'message': 'Signed Up successfully!'})
                 return jsonify({'message': 'Email already exists!'})    
@@ -54,7 +55,7 @@ def update_user():
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
             cursor.execute(UPDATE_USER, (
-                firstname, lastname, phonenumber, email, password, username
+                firstname, lastname, phonenumber, email, calculate_sha256(password), username
             ))
             return jsonify({'message': 'Details updated successfully!'})
 
@@ -72,7 +73,7 @@ def change_user():
             return jsonify({'message': 'Status changed successfully!'})
 
 # delete user
-@app.route('/deleteUser/<usernmae>', methods=['DELETE'])
+@app.route('/deleteUser/<username>', methods=['DELETE'])
 def delete_user(username):
     with connection:
         with connection.cursor() as cursor:
@@ -88,7 +89,7 @@ def login():
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_USER)
-            cursor.execute(GET_USER_LOGIN, (username, password))
+            cursor.execute(GET_USER_LOGIN, (username, calculate_sha256(password)))
             if(cursor.fetchall()==[]):
                 return jsonify({'message': 'Wrong email or password!'})
             return jsonify({'message': 'Logged in successfully!'})
