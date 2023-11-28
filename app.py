@@ -166,14 +166,13 @@ def search_product():
 # filter product
 @app.route('/filterProduct', methods=['GET'])
 def filter_product():
-    productname = request.args.get('productname')
     category = request.args.get('category')
     minprice = request.args.get('minprice')
     maxprice = request.args.get('maxprice')
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(CREATE_SELLER)
-            cursor.execute(GET_PRODUCT_FILTER, (productname, category, minprice, maxprice))
+            cursor.execute(GET_PRODUCT_FILTER, (category, minprice, maxprice))
             allproducts = cursor.fetchall()
             if(allproducts==[]):
                 return jsonify({'message': 'There is no product with such a price range!'})
