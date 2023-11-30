@@ -260,6 +260,21 @@ def view_seller():
             email = details[0][4]
             sellerDetails = [firstname, lastname, phonenumber, email]
             return jsonify(sellerDetails)
+
+# get user details
+@app.route('/user', methods=['GET'])
+def view_seller():
+    username = request.args.get('username')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_USER)
+            cursor.execute(GET_USER, (username, ))
+            details = cursor.fetchall()
+            firstname = details[0][1]
+            lastname = details[0][2]
+            email = details[0][4]
+            userDetails = [firstname, lastname, email]
+            return jsonify(userDetails)
         
 if __name__ == '__main__':
     app.run()
