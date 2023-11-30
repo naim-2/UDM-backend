@@ -263,7 +263,7 @@ def view_seller():
 
 # get user details
 @app.route('/user', methods=['GET'])
-def view_seller():
+def user():
     username = request.args.get('username')
     with connection:
         with connection.cursor() as cursor:
