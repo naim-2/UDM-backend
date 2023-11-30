@@ -273,7 +273,8 @@ def view_seller():
             firstname = details[0][1]
             lastname = details[0][2]
             email = details[0][4]
-            userDetails = [firstname, lastname, email]
+            status = details[0][6]
+            userDetails = [firstname, lastname, email, status]
             return jsonify(userDetails)
         
 if __name__ == '__main__':
