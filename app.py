@@ -221,6 +221,22 @@ def post_review():
                     newreviews, username, productname
                 ))
                 return jsonify({'message': 'Review added successfully!'})
+
+# get reviews
+# post review
+@app.route('/getReview', methods=['GET'])
+def get_review():
+    username = request.args.get('username')
+    productname = request.args.get('productname')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_SELLER)
+            cursor.execute(GET_REVIEWS, (username, productname))
+            reviews = cursor.fetchall()
+            if(reviews==[]):
+                return jsonify({'message': 'There are currently no reviews!'})
+            else:
+                return jsonify(reviews)
             
 # # update review
 # @app.route('/updateReview', methods=['PUT'])
