@@ -277,5 +277,16 @@ def user():
             userDetails = [firstname, lastname, email, status]
             return jsonify(userDetails)
         
+# get all users for admin
+@app.route('/allusers', methods=['GET'])
+def allusers():
+    with connection: 
+        with connection.cursor() as cursor:
+            cursor.execute(CREATE_USER)
+            cursor.execute(GET_USERS)
+            details = cursor.fetchall()
+            return jsonify(details)
+
+        
 if __name__ == '__main__':
     app.run()

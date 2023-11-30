@@ -12,6 +12,7 @@ INSERT_SELLER = "INSERT INTO seller (username, productname, category, photo, pro
 
 # view from tables
 GET_USER = "SELECT * FROM users WHERE username=(%s);"
+GET_USERS = "SELECT (username, status) FROM users;"
 GET_USER_LOGIN = "SELECT * FROM users WHERE username=(%s) AND password=(%s)"
 GET_EMAIL = "SELECT * FROM users WHERE email=(%s);"
 GET_SELLER = "SELECT * FROM seller WHERE username=(%s) AND productname=(%s);"
