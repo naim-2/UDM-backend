@@ -274,7 +274,8 @@ def view_seller():
             lastname = details[0][2]
             phonenumber = details[0][3]
             email = details[0][4]
-            sellerDetails = [firstname, lastname, phonenumber, email]
+            username = details[0][0]
+            sellerDetails = [firstname, lastname, phonenumber, email, username]
             return jsonify(sellerDetails)
 
 # get user details
